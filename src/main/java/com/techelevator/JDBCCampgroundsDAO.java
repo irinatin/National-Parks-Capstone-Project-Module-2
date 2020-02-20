@@ -8,7 +8,7 @@ package com.techelevator;
 	import org.springframework.jdbc.core.JdbcTemplate;
 	import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-	public class JDBCCampgroundsDAO {
+	public class JDBCCampgroundsDAO implements CampgroundsDAO {
 
 		private JdbcTemplate jdbcTemplate;
 
