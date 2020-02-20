@@ -1,8 +1,9 @@
 package com.techelevator;
 
 import java.time.LocalDate;
+import java.util.List;
 
-public class Parks {
+public class Parks implements ParksDAO{
 	
 	private Long id;
 	private String name;
@@ -66,6 +67,18 @@ public class Parks {
 	
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public List<Parks> findAllParks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Parks> listParkInfoById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
