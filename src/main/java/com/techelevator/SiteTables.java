@@ -3,6 +3,7 @@ package com.techelevator;
 public class SiteTables {
 	
 	private Long id;
+	private Long campground_id;
 	private int number;
 	private int maxOccupancy;
 	private boolean ifHandicapAccessible;
@@ -15,6 +16,14 @@ public class SiteTables {
 	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getCampgroundId() {
+		return campground_id;
+	}
+
+	public void setCampgroundId(Long campground_id) {
+		this.campground_id = campground_id;
 	}
 	
 	public int getNumber() {
