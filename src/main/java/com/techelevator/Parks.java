@@ -13,6 +13,19 @@ public class Parks implements ParksDAO{
 	private int visitors;
 	private String description;
 	
+	@Override
+	public List<Parks> findAllParks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Parks> listParkInfoById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -69,16 +82,5 @@ public class Parks implements ParksDAO{
 		this.description = description;
 	}
 
-	@Override
-	public List<Parks> findAllParks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Parks> listParkInfoById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
