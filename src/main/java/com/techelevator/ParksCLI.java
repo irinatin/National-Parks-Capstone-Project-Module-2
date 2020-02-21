@@ -70,7 +70,7 @@ public class ParksCLI {
 			if(choice.equals(parkArray[i])) {
 				handleGetAllParkInfoByName(parkArray[i]);
 //1			} else if(choice.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
-				choice.equals(CAMPGROUND_MENU_OPTIONS);
+				choice = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
 			} else if(choice.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 				printHeading("So Long, and Thnx 4 4ll da Fish.");
 				System.exit(0);
