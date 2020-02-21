@@ -9,6 +9,8 @@ public interface ParksDAO {
 	
 	public List<Parks> listParkInfoById(Long id);
 	
+	public List<Parks> listParkInfoByName(String name);
+	
 	
 
 }

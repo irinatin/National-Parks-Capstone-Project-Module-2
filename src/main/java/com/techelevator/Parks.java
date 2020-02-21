@@ -82,5 +82,11 @@ public class Parks implements ParksDAO{
 		this.description = description;
 	}
 
+	@Override
+	public List<Parks> listParkInfoByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

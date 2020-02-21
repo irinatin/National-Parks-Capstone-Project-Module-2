@@ -42,6 +42,17 @@ public class JDBCParksDAO implements ParksDAO {
 		return parkChosen;
 	}
 
+	public List<Parks> listParkInfoByName(String name) {
+		ArrayList<Parks> parkChosen = new ArrayList<>();
+		String sqlFindParkByName = "SELECT * " + "FROM park " + "WHERE name = ? ";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindParkByName, name);
+		while (results.next()) {
+			Parks thePark = mapRowToParks(results);
+			parkChosen.add(thePark);
+		}
+
+		return parkChosen;
+	}
 	private Parks mapRowToParks(SqlRowSet results) {
 		Parks thePark;
 		thePark = new Parks();
