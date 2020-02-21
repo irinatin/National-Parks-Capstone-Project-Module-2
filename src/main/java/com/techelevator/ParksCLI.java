@@ -63,15 +63,18 @@ public class ParksCLI {
 		handleListAllParks();
 		String[] parkArray = new String[parkList.size()]; 
 		parkList.toArray(parkArray);
-		String choice = (String)menu.getChoiceFromOptions(parkArray);
+		String choiceP = (String)menu.getChoiceFromOptions(parkArray);
 
 		int i = 0;
 		while(true) {
-			if(choice.equals(parkArray[i])) {
+			if(choiceP.equals(parkArray[i])) {
 				handleGetAllParkInfoByName(parkArray[i]);
 //1			} else if(choice.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
-				choice = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
-			} else if(choice.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
+				String choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
+				
+			
+			
+			} else if(choiceP.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 				printHeading("So Long, and Thnx 4 4ll da Fish.");
 				System.exit(0);
 			}
