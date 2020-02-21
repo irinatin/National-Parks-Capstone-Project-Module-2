@@ -20,13 +20,14 @@ public class ParksCLI {
 																		   SEARCH_FOR_RESERVATION,
 																		   MENU_OPTION_RETURN_TO_PREVIOUS};
 	
-//	private static final String PARK_MENU_OPTION_ALL_CAMPGROUNDS = "Show all campgrounds";
+	private static final String PARK_MENU_OPTION_ALL_CAMPGROUNDS = "Show all campgrounds";
 //	private static final String PARK_MENU_OPTION_SEARCH_BY_DATE = "campground search by date";
 //	private static final String PARK_MENU_OPTION_SEARCH_BY_SITE = "campground search by site";
-//	private static final String[] CAMPGROUND_MENU_OPTIONS = new String[] { PARK_MENU_OPTION_ALL_CAMPGROUNDS,
+	private static final String CAMPGROUND_MENU_OPTION_ALL_CAMPSITES = "Show all campsites";
+	private static final String[] CAMPSITE_MENU_OPTIONS = new String[] { CAMPGROUND_MENU_OPTION_ALL_CAMPSITES,
 //																		   PARK_MENU_OPTION_SEARCH_BY_DATE,
 //																		   PARK_MENU_OPTION_SEARCH_BY_SITE,
-//																		   MENU_OPTION_RETURN_TO_MAIN};
+																	   MENU_OPTION_RETURN_TO_PREVIOUS};
 //	
 	
 	private Menu menu;
@@ -36,6 +37,7 @@ public class ParksCLI {
 	private ReservationsDAO reservationsDAO;
 
 	private List<String> parkList = new ArrayList<String>();
+	private List<String> campgroundList = new ArrayList<String>();
 	
 	public static void main(String[] args) {
 		ParksCLI application = new ParksCLI();
@@ -57,23 +59,51 @@ public class ParksCLI {
 
 	}
 
-	private void run() {
+	public void run() {
 		displayParksBanner();	
 		printHeading("View Parks Interface");
 		handleListAllParks();
 		String[] parkArray = new String[parkList.size()]; 
 		parkList.toArray(parkArray);
-		String choice = (String)menu.getChoiceFromOptions(parkArray);
+		String choiceP = (String)menu.getChoiceFromOptions(parkArray);
+		long parkId = 0;
+		
 
 		int i = 0;
 		while(true) {
-			if(choice.equals(parkArray[i])) {
-				handleGetAllParkInfoByName(parkArray[i]);
+			if(choiceP.equals(parkArray[i])) {
+				parkId = handleGetAllParkInfoByName(parkArray[i]);
 //1			} else if(choice.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
-				choice = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
-			} else if(choice.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
+				String choiceC = (String)(menu.getChoiceFromOptions(CAMPSITE_MENU_OPTIONS));
+	
+				while(true) {
+					if(choiceC.equals(CAMPGROUND_MENU_OPTION_ALL_CAMPSITES)) {
+						handleListAllCampground(parkId);
+						String[] campgroundArray = new String[campgroundList.size()]; 
+						campgroundList.toArray(campgroundArray);
+						String choiceS = (String)menu.getChoiceFromOptions(campgroundArray);
+						
+					} else if(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
+						break;
+				}
+				}
+			}
+			
+			else if(choiceP.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 				printHeading("So Long, and Thnx 4 4ll da Fish.");
 				System.exit(0);
+			}
+		}
+	}
+	
+	public void handleListAllCampground(long parkId) {
+		printHeading("Select a Campground for further details:");
+		List<Campgrounds> allCampgrounds = campgroundsDAO.findAllCampgroundsByParkId(parkId);
+		if(allCampgrounds.size() > 0) {
+			int i = 0;
+			for(Campgrounds campground : allCampgrounds) {
+				campgroundList.add(campground.getName());
+				i++;
 			}
 		}
 	}
@@ -92,9 +122,10 @@ public class ParksCLI {
 		}
 	}
 
-	private void handleGetAllParkInfoByName(String name) {
+	public long handleGetAllParkInfoByName(String name) {
 		printHeading("-- parks by id --");
 		List<Parks> allParks = parksDAO.listParkInfoByName(name);
+		long parkId = 0;
 		if(allParks.size() > 0) {
 			for(Parks park : allParks) {
 				if (name.equals(park.getName())) {
@@ -104,10 +135,33 @@ public class ParksCLI {
 					System.out.println("Area:" + "\t\t" + park.getArea().toString());
 	//				System.out.println(park.getVisitors().toString());
 					System.out.println(park.getDescription());
+					parkId = park.getId();
 				}
 			}
 		}
+		return parkId;
+		
 	}
+	
+	public long handleGetAllCampgroundInfo(Long id) {
+		printHeading("-- campground by park_name(?) --");
+		List<Campgrounds> allCampgrounds = campgroundsDAO.findAllCampgroundsByParkId(id);
+		long campgroundId = 0;
+		if(allCampgrounds.size() > 0) {
+			for(Campgrounds campground : allCampgrounds) {
+				if (id.equals(campground.getId())) {
+					System.out.println(campground.getName());
+					System.out.println(campground.getOpenFromMonth());
+					System.out.println(campground.getOpenToMonth());
+					System.out.println(campground.getDailyFee());
+							
+					campgroundId = campground.getId();
+				}
+			}
+		}
+		return campgroundId;
+	}
+	
 
 	private void listParkInfo(List<Parks> parkList, String name) {
 		System.out.println();

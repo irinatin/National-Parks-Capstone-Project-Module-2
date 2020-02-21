@@ -6,4 +6,5 @@ public interface CampgroundsDAO {
 
 	public List<Campgrounds> findAllCampgroundsByParkId(Long id);	
 	
+	
 }

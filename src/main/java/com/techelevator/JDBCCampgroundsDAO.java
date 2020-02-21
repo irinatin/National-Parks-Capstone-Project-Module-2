@@ -32,13 +32,13 @@ package com.techelevator;
 
 
 	public List<Campgrounds> findAllCampgroundsByParkId (Long id) {
-		ArrayList<Campgrounds> campgroundsChosen = new ArrayList<>();
+ArrayList<Campgrounds> campgroundsChosen = new ArrayList<>();
 		String sqlFindCampgroundsById = 
 						  " SELECT c.* , p.name " 
 						+ " FROM campground c " 
-						+ " WHERE park_id = ? "
 						+ "  JOIN park p USING (park_id) "
-						+ " ORDER BY name ";
+						+ " WHERE c.park_id = ? "
+						+ " ORDER BY c.name ";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindCampgroundsById, id);
 		while (results.next()) {
 			Campgrounds theCampgrounds = mapRowToCampgrounds(results);
@@ -52,7 +52,7 @@ package com.techelevator;
 		Campgrounds theCampground;
 		theCampground = new Campgrounds();
 		theCampground.setId(results.getLong("campground_id"));
-		theCampground.setId(results.getLong("c.park_id"));
+		theCampground.setId(results.getLong("park_id"));
 		theCampground.setName(results.getString("name"));
 		theCampground.setOpenFromMonth(results.getInt("open_from_mm"));			
 		theCampground.setOpenToMonth(results.getInt("open_to_mm"));
