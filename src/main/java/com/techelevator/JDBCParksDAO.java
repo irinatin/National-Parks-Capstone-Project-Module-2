@@ -45,7 +45,7 @@ public class JDBCParksDAO implements ParksDAO {
 	private Parks mapRowToParks(SqlRowSet results) {
 		Parks thePark;
 		thePark = new Parks();
-		thePark.setId(results.getLong("id"));
+		thePark.setId(results.getLong("park_id"));
 		thePark.setName(results.getString("name"));
 		thePark.setLocation(results.getString("location"));
 		thePark.setEstablishDate(results.getDate("establish_date").toLocalDate());

@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface CampgroundsDAO {
 
-	public List<Campgrounds> findAllCampgroundsByParkId();	
+	public List<Campgrounds> findAllCampgroundsByParkId(Long id);	
 	
 }

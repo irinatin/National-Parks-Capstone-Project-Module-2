@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-public class JDBCSiteTablesDAO {
+public class JDBCSiteTablesDAO implements SiteTablesDAO {
 	
 	private JdbcTemplate jdbcTemplate;
 
@@ -81,5 +81,11 @@ public class JDBCSiteTablesDAO {
 		theSiteTable.isIfUtilitiesAccess();
 
 		return theSiteTable;
+	}
+
+	@Override
+	public List<SiteTables> findAllSiteTablesOfThisCampground() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
