@@ -64,15 +64,12 @@ public class ParksCLI {
 		String[] parkArray = new String[parkList.size() + 1]; 
 		parkList.toArray(parkArray);
 		parkArray[parkArray.length -1] = MENU_OPTION_EXIT;
-		String choiceP = (String)menu.getChoiceFromOptions(parkArray);
+		String choiceP = new String();
 		
 		int i = 0;
-		while(true) {
-			if(choiceP.equals(MENU_OPTION_EXIT)) {
-				printHeading("So Long, and Thnx 4 4ll da Fish.");
-				System.exit(0);
-			}
-			for (i = 0; i < parkArray.length; i++) {
+		while(!(choiceP == MENU_OPTION_EXIT)) {
+			choiceP = (String)menu.getChoiceFromOptions(parkArray);
+			for (i = 0; i < parkArray.length-1; i++) {
 				if(choiceP.equals(parkArray[i])) {
 					handleGetAllParkInfoByName(parkArray[i]);
 					String choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
@@ -92,8 +89,12 @@ public class ParksCLI {
 							break;
 						}
 					}
-				}
-			}
+				} 
+			}if(choiceP.equals(MENU_OPTION_EXIT)) {
+					printHeading("So Long, and Thnx 4 4ll da Fish.");
+//					System.exit(0);
+			}	
+
 //			else if(choiceP.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 		}
 	}
