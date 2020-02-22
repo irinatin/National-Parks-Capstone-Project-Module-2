@@ -34,6 +34,8 @@ public abstract class DAOIntegrationTest {
 	public static void closeDataSource() throws SQLException {
 		dataSource.destroy();
 	}
+	
+	
 
 	/* After each test, we rollback any changes that were made to the database so that
 	 * everything is clean for the next test */
