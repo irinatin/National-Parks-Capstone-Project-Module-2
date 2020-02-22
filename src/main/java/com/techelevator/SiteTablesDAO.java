@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface SiteTablesDAO {
 	
-	public List<SiteTables> findAllSiteTablesOfThisCampground();
+	public List<SiteTables> findAllSiteTablesOfThisCampground(long campgroundId);
 
 }
