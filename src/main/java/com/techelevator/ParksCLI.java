@@ -77,19 +77,16 @@ public class ParksCLI {
 		
 		int i = 0;
 		while(!(choiceP.equals(MENU_OPTION_EXIT))) {
-			choiceP = (String)menu.getChoiceFromOptions(parkArray);
+/*pick park */			choiceP = (String)menu.getChoiceFromOptions(parkArray);  // pick park
 			for (i = 0; i < parkArray.length-1; i++) {
 				if(choiceP.equals(parkArray[i])) {
-					handleGetAllParkInfoByName(parkArray[i]);
-					String choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
+					parkId = handleGetAllParkInfoByName(parkArray[i]);
+/*pick campground */					String choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));  //pick campground
 				
-					while(true) {
-						if(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
-							break;
-						}
+					while(!(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS))) {
 					
 						if(choiceC.equals(CAMPGROUNDS_IN_PARK)) {
-							handleListAllCampground(parkId);
+							handleGetAllCampgroundInfo(parkId);
 							String[] campgroundArray = new String[campgroundList.size()]; 
 							campgroundList.toArray(campgroundArray);
 							String choiceS = (String)menu.getChoiceFromOptions(campgroundArray);
@@ -101,19 +98,19 @@ public class ParksCLI {
 								siteTableList.toArray(siteTableArray);
 								
 								
-							}
-							
-							
 						} else if(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 							break;
 						}
 					}
-				} 
+				} 	if (choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
+					break;
+				}
+
 			} if(choiceP.equals(MENU_OPTION_EXIT)) {
 					printHeading("So Long, and Thnx 4 4ll da Fish.");
 //					System.exit(0);
 			}	
-
+			}
 //			else if(choiceP.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 		}
 	}
