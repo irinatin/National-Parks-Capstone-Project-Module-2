@@ -12,22 +12,19 @@ public class ParksCLI {
 	private static final String MENU_OPTION_EXIT = "Quit";
 	private static final String MENU_OPTION_RETURN_TO_PREVIOUS = "Return to previous screen";
 	
-	private static final String PARK_MENU_LIST_PARK_INFO = "Park Information Screen";
-
 	private static final String CAMPGROUNDS_IN_PARK = "View Campgrounds";
 	private static final String SEARCH_FOR_RESERVATION = "Search for Reservation";
 	private static final String[] CAMPGROUND_MENU_OPTIONS = new String[] { CAMPGROUNDS_IN_PARK,
 																		   SEARCH_FOR_RESERVATION,
 																		   MENU_OPTION_RETURN_TO_PREVIOUS};
 	
-	private static final String PARK_MENU_OPTION_ALL_CAMPGROUNDS = "Show all campgrounds";
+	private static final String CAMPSITES_IN_CAMPGROUND = "Show all campgrounds";
 //	private static final String PARK_MENU_OPTION_SEARCH_BY_DATE = "campground search by date";
 //	private static final String PARK_MENU_OPTION_SEARCH_BY_SITE = "campground search by site";
-	private static final String CAMPGROUND_MENU_OPTION_ALL_CAMPSITES = "Show all campsites";
-	private static final String[] CAMPSITE_MENU_OPTIONS = new String[] { CAMPGROUND_MENU_OPTION_ALL_CAMPSITES,
-//																		   PARK_MENU_OPTION_SEARCH_BY_DATE,
-//																		   PARK_MENU_OPTION_SEARCH_BY_SITE,
-																	   MENU_OPTION_RETURN_TO_PREVIOUS};
+	private static final String[] CAMPSITE_MENU_OPTIONS = new String[] { CAMPSITES_IN_CAMPGROUND,
+//																		 PARK_MENU_OPTION_SEARCH_BY_DATE,
+//																		 PARK_MENU_OPTION_SEARCH_BY_SITE,
+																	   	 MENU_OPTION_RETURN_TO_PREVIOUS};
 //	
 	
 	private Menu menu;
@@ -61,38 +58,43 @@ public class ParksCLI {
 
 	public void run() {
 		displayParksBanner();	
-		printHeading("View Parks Interface");
-		handleListAllParks();
-		String[] parkArray = new String[parkList.size()]; 
-		parkList.toArray(parkArray);
-		String choiceP = (String)menu.getChoiceFromOptions(parkArray);
-		long parkId = 0;
-		
 
+		handleListAllParks();
+		long parkId = 0;
+		String[] parkArray = new String[parkList.size() + 1]; 
+		parkList.toArray(parkArray);
+		parkArray[parkArray.length -1] = MENU_OPTION_EXIT;
+		String choiceP = (String)menu.getChoiceFromOptions(parkArray);
+		
 		int i = 0;
 		while(true) {
-			if(choiceP.equals(parkArray[i])) {
-				parkId = handleGetAllParkInfoByName(parkArray[i]);
-//1			} else if(choice.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
-				String choiceC = (String)(menu.getChoiceFromOptions(CAMPSITE_MENU_OPTIONS));
-	
-				while(true) {
-					if(choiceC.equals(CAMPGROUND_MENU_OPTION_ALL_CAMPSITES)) {
-						handleListAllCampground(parkId);
-						String[] campgroundArray = new String[campgroundList.size()]; 
-						campgroundList.toArray(campgroundArray);
-						String choiceS = (String)menu.getChoiceFromOptions(campgroundArray);
-						
-					} else if(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
-						break;
-				}
-				}
-			}
-			
-			else if(choiceP.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
+			if(choiceP.equals(MENU_OPTION_EXIT)) {
 				printHeading("So Long, and Thnx 4 4ll da Fish.");
 				System.exit(0);
 			}
+			for (i = 0; i < parkArray.length; i++) {
+				if(choiceP.equals(parkArray[i])) {
+					handleGetAllParkInfoByName(parkArray[i]);
+					String choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
+				
+					while(true) {
+						if(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
+							break;
+						}
+					
+						if(choiceC.equals(CAMPGROUND_MENU_OPTIONS)) {
+							handleListAllCampground(parkId);
+							String[] campgroundArray = new String[campgroundList.size()]; 
+							campgroundList.toArray(campgroundArray);
+							String choiceS = (String)menu.getChoiceFromOptions(campgroundArray);
+							
+						} else if(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
+							break;
+						}
+					}
+				}
+			}
+//			else if(choiceP.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 		}
 	}
 	
