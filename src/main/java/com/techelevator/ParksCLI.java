@@ -67,7 +67,7 @@ public class ParksCLI {
 		String choiceP = new String();
 		
 		int i = 0;
-		while(!(choiceP == MENU_OPTION_EXIT)) {
+		while(!(choiceP.equals(MENU_OPTION_EXIT))) {
 			choiceP = (String)menu.getChoiceFromOptions(parkArray);
 			for (i = 0; i < parkArray.length-1; i++) {
 				if(choiceP.equals(parkArray[i])) {
