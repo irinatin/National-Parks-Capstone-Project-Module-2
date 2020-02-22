@@ -71,7 +71,7 @@ public class ParksCLI {
 			choiceP = (String)menu.getChoiceFromOptions(parkArray);
 			for (i = 0; i < parkArray.length-1; i++) {
 				if(choiceP.equals(parkArray[i])) {
-					handleGetAllParkInfoByName(parkArray[i]);
+					parkId = handleGetAllParkInfoByName(parkArray[i]);
 					String choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));
 				
 					while(true) {
