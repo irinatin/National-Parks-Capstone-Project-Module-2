@@ -66,30 +66,30 @@ public class ParksCLI {
 		displayParksBanner();	
 
 		handleListAllParks();
-		long parkId = 0;
 		String[] parkArray = new String[parkList.size() + 1]; 
+		String[] campgroundArray = new String[campgroundList.size()]; 
 		parkList.toArray(parkArray);
 		parkArray[parkArray.length -1] = MENU_OPTION_EXIT;
 		String choiceP = new String();
+		String choiceC = new String();
+		String choiceS = new String();
+		long parkId = 0;
 		long campgroundId = 0;
-		
-		
-		
+				
 		int i = 0;
 		while(!(choiceP.equals(MENU_OPTION_EXIT))) {
-/*pick park */			choiceP = (String)menu.getChoiceFromOptions(parkArray);  // pick park
+/*pick park*/choiceP = (String)menu.getChoiceFromOptions(parkArray);  // pick park
 			for (i = 0; i < parkArray.length-1; i++) {
 				if(choiceP.equals(parkArray[i])) {
 					parkId = handleGetAllParkInfoByName(parkArray[i]);
-/*pick campground */					String choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));  //pick campground
+/*pick campground*/	choiceC = (String)(menu.getChoiceFromOptions(CAMPGROUND_MENU_OPTIONS));  //pick campground
 				
 					while(!(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS))) {
 					
 						if(choiceC.equals(CAMPGROUNDS_IN_PARK)) {
 							handleGetAllCampgroundInfo(parkId);
-							String[] campgroundArray = new String[campgroundList.size()]; 
 							campgroundList.toArray(campgroundArray);
-							String choiceS = (String)menu.getChoiceFromOptions(campgroundArray);
+/* pick campsite */			choiceS = (String)menu.getChoiceFromOptions(campgroundArray);
 							
 							if(choiceS.equals(CAMPSITES_IN_CAMPGROUND)) {
 								
@@ -147,18 +147,6 @@ public class ParksCLI {
 	
 	}
 	
-	public void handleListAllCampground(long parkId) {
-		printHeading("Select a Campground for further details:");
-		List<Campgrounds> allCampgrounds = campgroundsDAO.findAllCampgroundsByParkId(parkId);
-		if(allCampgrounds.size() > 0) {
-			int i = 0;
-			for(Campgrounds campground : allCampgrounds) {
-				campgroundList.add(campground.getName());
-				i++;
-			}
-		}
-	}
-
 	public void  handleListAllParks() {
 		printHeading("Select a Park for further details:");
 		List<Parks> allParks = parksDAO.findAllParks();
@@ -194,19 +182,33 @@ public class ParksCLI {
 		
 	}
 	
+//	public void handleListAllCampground(long parkId) {
+//		printHeading("Select a Campground for further details:");
+//		List<Campgrounds> allCampgrounds = campgroundsDAO.findAllCampgroundsByParkId(parkId);
+//		if(allCampgrounds.size() > 0) {
+//			int i = 0;
+//			for(Campgrounds campground : allCampgrounds) {
+//				campgroundList.add(campground.getName());
+//				i++;
+//			}
+//		}
+//	}
+
 	public long handleGetAllCampgroundInfo(Long id) {
 		printHeading("-- campground by park_name(?) --");
 		List<Campgrounds> allCampgrounds = campgroundsDAO.findAllCampgroundsByParkId(id);
 		long campgroundId = 0;
 		if(allCampgrounds.size() > 0) {
+			int i = 1;
 			for(Campgrounds campground : allCampgrounds) {
 				if (id.equals(campground.getId())) {
-					System.out.println(campground.getName());
-					System.out.println(campground.getOpenFromMonth());
-					System.out.println(campground.getOpenToMonth());
-					System.out.println(campground.getDailyFee());
+					System.out.println(i + ") " + campground.getName() + "\t\t" + 
+					campground.getOpenFromMonth() + "\t\t" + 
+					campground.getOpenToMonth() + "\t\t" +
+					campground.getDailyFee());
 							
 					campgroundId = campground.getId();
+					i++;
 				}
 			}
 		}
