@@ -10,6 +10,7 @@ public class SiteTables {
 	private int maxRvLength;
 	private boolean ifUtilitiesAccess;
 	
+	
 	public Long getId() {
 		return id;
 	}
