@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,17 @@ public class ParksCLI {
 																		   SEARCH_FOR_RESERVATION,
 																		   MENU_OPTION_RETURN_TO_PREVIOUS};
 	
-	private static final String CAMPSITES_IN_CAMPGROUND = "Show all campgrounds";
+	private static final String CAMPSITES_IN_CAMPGROUND = "Show all campsites";
 //	private static final String PARK_MENU_OPTION_SEARCH_BY_DATE = "campground search by date";
 //	private static final String PARK_MENU_OPTION_SEARCH_BY_SITE = "campground search by site";
 	private static final String[] CAMPSITE_MENU_OPTIONS = new String[] { CAMPSITES_IN_CAMPGROUND,
 //																		 PARK_MENU_OPTION_SEARCH_BY_DATE,
 //																		 PARK_MENU_OPTION_SEARCH_BY_SITE,
 																	   	 MENU_OPTION_RETURN_TO_PREVIOUS};
+	
+	
+	
+	
 //	
 	
 	private Menu menu;
@@ -35,6 +40,7 @@ public class ParksCLI {
 
 	private List<String> parkList = new ArrayList<String>();
 	private List<String> campgroundList = new ArrayList<String>();
+	private List<Integer> siteTableList = new ArrayList<Integer>();
 	
 	public static void main(String[] args) {
 		ParksCLI application = new ParksCLI();
@@ -65,6 +71,9 @@ public class ParksCLI {
 		parkList.toArray(parkArray);
 		parkArray[parkArray.length -1] = MENU_OPTION_EXIT;
 		String choiceP = new String();
+		long campgroundId = 0;
+		
+		
 		
 		int i = 0;
 		while(!(choiceP.equals(MENU_OPTION_EXIT))) {
@@ -79,24 +88,66 @@ public class ParksCLI {
 							break;
 						}
 					
-						if(choiceC.equals(CAMPGROUND_MENU_OPTIONS)) {
+						if(choiceC.equals(CAMPGROUNDS_IN_PARK)) {
 							handleListAllCampground(parkId);
 							String[] campgroundArray = new String[campgroundList.size()]; 
 							campgroundList.toArray(campgroundArray);
 							String choiceS = (String)menu.getChoiceFromOptions(campgroundArray);
+							
+							if(choiceS.equals(CAMPSITES_IN_CAMPGROUND)) {
+								
+								handleListAllSiteTables(campgroundId);
+								Integer[] siteTableArray = new Integer[siteTableList.size()];
+								siteTableList.toArray(siteTableArray);
+								
+								
+							}
+							
 							
 						} else if(choiceC.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 							break;
 						}
 					}
 				} 
-			}if(choiceP.equals(MENU_OPTION_EXIT)) {
+			} if(choiceP.equals(MENU_OPTION_EXIT)) {
 					printHeading("So Long, and Thnx 4 4ll da Fish.");
 //					System.exit(0);
 			}	
 
 //			else if(choiceP.equals(MENU_OPTION_RETURN_TO_PREVIOUS)) {
 		}
+	}
+	
+	
+	public void handleListAllSiteTables(long campgroundId) {
+		printHeading("Select a SiteTable for further details:");
+		List<SiteTables> allSiteTables = siteTablesDAO.findAllSiteTablesOfThisCampground(campgroundId);
+		if(allSiteTables.size() > 0) {
+			int i = 0;
+			for(SiteTables siteTable : allSiteTables) {
+				 siteTableList.add(siteTable.getNumber());
+				i++;
+			}
+		}
+	}
+	
+	public void handleAllSiteTablesByCampgroundId(Long campgroundId, BigDecimal dailyFee ) {
+		printHeading("-- sitetables by campground id --");
+		List<SiteTables> allSitetablesByCampgroundId = siteTablesDAO.findAllSiteTablesOfThisCampground(campgroundId);
+		if(allSitetablesByCampgroundId.size() > 0) {
+			for(SiteTables sitetable : allSitetablesByCampgroundId) {
+				if (campgroundId.equals(sitetable.getId())) {
+					System.out.println(sitetable.getNumber());
+					System.out.println(sitetable.getMaxOccupancy());
+					System.out.println(sitetable.isIfHandicapAccessible());
+					System.out.println(sitetable.isIfUtilitiesAccess());
+					System.out.println(sitetable.getMaxRvLength());
+					System.out.println(dailyFee);
+							
+				}
+			}
+		}
+	
 	}
 	
 	public void handleListAllCampground(long parkId) {
