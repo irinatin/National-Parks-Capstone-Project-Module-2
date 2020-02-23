@@ -16,16 +16,18 @@ public class JDBCSiteTablesDAO implements SiteTablesDAO {
 	public JDBCSiteTablesDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
+	@Override
+//	public List<SiteTables> findAllSiteTablesByCampgroundId (Long id) {
+	public List<SiteTables> findAllSiteTablesOfThisCampground(long campgroundId) {
 
-	public List<SiteTables> findAllSiteTablesByCampgroundId (Long id) {
 		ArrayList<SiteTables> allSitesChosen = new ArrayList<>();
 		String sqlFindSiteTablesById = 
 						  " SELECT * " 
-						+ " FROM SiteTable " 
+						+ " FROM Site " 
 						+ " WHERE campground_id = ? "
 						+ " ORDER BY site_number ";
 		
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindSiteTablesById, id);
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindSiteTablesById, campgroundId);
 		while (results.next()) {
 			SiteTables theSiteTablesPerCampground = mapRowToSiteTables(results);
 			allSitesChosen.add(theSiteTablesPerCampground);
@@ -82,6 +84,7 @@ public class JDBCSiteTablesDAO implements SiteTablesDAO {
 
 		return theSiteTable;
 	}
+
 
 //	@Override
 //	public List<SiteTables> findAllSiteTablesOfThisCampground() {

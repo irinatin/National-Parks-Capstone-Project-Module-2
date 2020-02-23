@@ -29,14 +29,14 @@ public class JDBCReservationsDAO implements ReservationsDAO{
 		}
 		return allReservations;
 	}
-	
+	@Override
 	public List<Reservations> listAllReservationsByCampground(Long id) {
 		ArrayList<Reservations> allReservations = new ArrayList<>();
-		String sqlFindAllReservations = "SELECT r.site_number,  "
+		String sqlFindAllReservations = "SELECT r.site_id,  "
 									  + "  from Reservation r "
 									  + "  join Site s using (site_id) "
 									  + "  join Campground c using (campground_id) "
-									  + " where campground_id = ? "
+									  + " where r.campground_id = ? "
 									  + "  order by s.site_id ";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindAllReservations, id);
 		while (results.next()) {
@@ -45,37 +45,44 @@ public class JDBCReservationsDAO implements ReservationsDAO{
 		}
 		return allReservations;
 	}
-
+	@Override
 	public List<Reservations> listReservationsByDate(Long id, LocalDate fromDate, LocalDate toDate) {
 		ArrayList<Reservations> allReservations = new ArrayList<>();
-		String sqlFindAllReservations = "SELECT * "
-									  + "  from Reservations r "
+		String sqlFindAllReservations = "SELECT r.site_id, from_date to_date "
+									  + "  from Reservation r "
 									  + "  join Site s using (site_id) "
 									  + "  join Campground c using (campground_id) "
 									  + " where c.campground_id = ? "
-									  + "   and (( ? not between start_date and end_date) "
-									  + "   AND  ( ? not between start_date and end_date)) "
-									  + "  order by reservation_id ";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindAllReservations, id, fromDate, toDate);
+									  + "   and '2020-03-13' not between from_date and to_date "
+									  + "   and '2020-04-01' not between from_date and to_date "
+									  + " order by reservation_id " ;
+
+//		try {
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindAllReservations, id);
+//		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindAllReservations, id, "\'"+fromDate.toString()+"\'", "\'"+toDate.toString()+"\'");
 		while (results.next()) {
 			Reservations theReservation = mapRowToReservation(results);
 			allReservations.add(theReservation);
 		}
+//		} catch (Exception e) {
+//			System.out.println ("sql error is ");
+			
+//		}
 		return allReservations;
 	}
 
-	public List<Reservations> listReservationsBySite(Long id, Long siteId) {
-		ArrayList<Reservations> allReservations = new ArrayList<>();
-		String sqlFindAllReservations = "SELECT * "
-									  + "  from Reservations "
-									  + " WHERE  ? = site_id " ;
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindAllReservations, id, siteId);
-		while (results.next()) {
-			Reservations theReservation = mapRowToReservation(results);
-			allReservations.add(theReservation);
-		}
-		return allReservations;
-	}
+//	public List<Reservations> listReservationsBySite(Long id, Long siteId) {
+//		ArrayList<Reservations> allReservations = new ArrayList<>();
+//		String sqlFindAllReservations = "SELECT * "
+//									  + "  from Reservations "
+//									  + " WHERE  ? = site_id " ;
+//		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlFindAllReservations, id, siteId);
+//		while (results.next()) {
+//			Reservations theReservation = mapRowToReservation(results);
+//			allReservations.add(theReservation);
+//		}
+//		return allReservations;
+//	}
 
 	@Override
 	public void addNewReservation(Reservations newReservation) {
@@ -115,20 +122,9 @@ public class JDBCReservationsDAO implements ReservationsDAO{
 	}
 
 	@Override
-	public List<Reservations> listReservationsByDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Reservations> listReservationsBySite() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public List<Reservations> listAllReservationsByCampground() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
