@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
-public class ParksCLI extends Handler{
+public class ParksCLI {
 
 	Scanner userInput = new Scanner(System.in);
 	String siteTableInput = "";
