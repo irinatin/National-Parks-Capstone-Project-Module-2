@@ -205,8 +205,10 @@ public class CampgroundCLI {
 				System.out.println("***Invalid Day! Please try again!***");
 				catchAllDateExceptionsBeforeUsingThemForSearch();
 			} else if (Day > 28 && (Month == 2)) {
+				if (!(Day == 29 && (Month == 2) && (Year % 4 == 0))) {
 				System.out.println("***Invalid Day! Please try again!***");
 				catchAllDateExceptionsBeforeUsingThemForSearch();
+				}
 			}
 			if (Year != 2020) {
 				System.out.println("***Reservations can only be made for 2020!***");
