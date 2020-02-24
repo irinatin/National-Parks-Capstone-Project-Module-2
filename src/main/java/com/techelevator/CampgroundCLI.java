@@ -29,7 +29,7 @@ public class CampgroundCLI {
 	private static final String RESERVATION_MENU_RETURN_TO_PREVIOUS = "Return to Previous Screen";
 	private static final String[] RESERVATION_MENU_OPTIONS = new String[] {RESERVATION_MENU_SEARCH_AVAILABLE,RESERVATION_MENU_RETURN_TO_PREVIOUS};
 	
-	private Menu menu;
+	private MenuNew menu;
 	private ParkDAO parkDAO;
 	private CampgroundDAO campgroundDAO;
 	private SiteDAO siteDAO;
@@ -57,7 +57,7 @@ public class CampgroundCLI {
   	
 	public CampgroundCLI() {
 		
-		this.menu = new Menu(System.in, System.out);
+		this.menu = new MenuNew(System.in, System.out);
 		
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setUrl("jdbc:postgresql://localhost:5432/campground");
